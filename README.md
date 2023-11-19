@@ -9,10 +9,10 @@
 + Dòng 2 dùng dấu +
 * Dòng 3 dùng dấu *
 
-3. Chèn link [name hien thi](link that su cua web)
-- [minhquy1624.com](https://minhquy1624)
+3. Chèn link ![name hien thi](link that su cua web)
+- ![minhquy1624.com](https://minhquy1624)
 
-4. Nhúng hình ảnh: ![](path image.jpg)
+4. Nhúng hình ảnh: ![mô tả](path image.jpg)
 
 5. Chèn checkbox:
 + []: Dùng để chèn checkbox với uncheck
@@ -35,12 +35,18 @@
 
 ***
 
-10. Tạo bảng
-+ Để tạo bảng thì cách cột nằm trong các dấu (|). Sau khi viết xong các trường dữ liệu thì ngăn cách với các dòng bằng kí tự "| :—– | :———- | :————– |".
-+ Bảng ví dụ : 
-| STT | Cột 1 | Cột 2 |
-| :—– | :———- | :————– |
-| 1 | Dòng 11 | Dòng 21 |
-| 2 | Dòng 12 | Dòng 22 |
-| 3 | Dòng 13 | Dòng 23 |
-| 4 | Dòng 14 | Dòng 24 |
+10. Xuống dòng
+ Sử dụng 2 khoảng trắng <space><space>
+
+11. Tạo bảng
+Các cột được tách nhau bằng dấu ngăn thẳng đứng |
+header được tách với content bằng dấu gạch ngang -.  
+Bảng ví dụ :  
+ 
+|       A       |      B        | C     |
+| :------------:|:-------------:|:-----:|
+|    3          |        2      |  1    |
+|     2         |        4      |   1   |
+|     a         | b             |    d  |
+
+
