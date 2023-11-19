@@ -36,8 +36,9 @@
 ***
 
 10. Tạo bảng
-Để tạo bảng thì cách cột nằm trong các dấu (|)
+Để tạo bảng thì cách cột nằm trong các dấu (|). Sau khi viết xong các trường dữ liệu thì ngăn cách với các dòng bằng kí tự "(| :—– | :———- | :————– |)".
 |STT|Cột 1|Cột 2|
+| :—– | :———- | :————– |
 |1|ABC|BCD|
 |2|Cột 1|DEF|
 |3|IOP|KLM|
