@@ -40,7 +40,16 @@
 
 11. Tạo bảng
 Các cột được tách nhau bằng dấu ngăn thẳng đứng |
-header được tách với content bằng dấu gạch ngang -.  
+header được tách với content bằng dấu gạch ngang -. 
+
+```  
+|       A       |      B        | C     |
+| :------------:|:-------------:|:-----:|
+|    3          |        2      |  1    |
+|     2         |        4      |   1   |
+|     a         | b             |    d  |
+```
+
 Bảng ví dụ :  
  
 |       A       |      B        | C     |
