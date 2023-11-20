@@ -1,27 +1,26 @@
 # I. Install Docker
 ## 1. Install Docker
-- ```sudo apt-get update
+- ```sudo apt-get update```
+- ```sudo apt-get install \```
+    ```ca-certificates \```
+    ```curl \```
+    ```gnupg \```
+    ```lsb-release```
 
-sudo apt-get install \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
+- ```sudo mkdir -m 0755 -p /etc/apt/keyrings```
 
-sudo mkdir -m 0755 -p /etc/apt/keyrings
+- ```curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg```
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+- ```echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \```
+  ```$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null```
 
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin```
+- ```sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin```
 
 ## 2. Install Docker Compose
-- ```sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+- ```sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose```
 
-sudo chmod +x /usr/local/bin/docker-compose```
+- ```sudo chmod +x /usr/local/bin/docker-compose```
 
 # II. Docker
 ## 1. Các lệnh Docker
@@ -44,7 +43,8 @@ sudo chmod +x /usr/local/bin/docker-compose```
 ## 2. Dockerfile
 - Là hướng dẫn để cho Docker biết đường để tạo cho ta 1 container từ image gốc và có nội dung nào đấy để thay đổi
 - Viết vào Dockerfile
-- ``` FROM nginx  COPY "html" "/usr/share/nginx/html"```
+- ``` FROM nginx```  
+- ```COPY "html" "/usr/share/nginx/html"```
 - Chạy lệnh ```docker build -t "my_nginx"[:version] .``` : Sẽ tự build tạo ra mọi thứ
 - Chạy lệnh ```docker run -d -p 8080:80 --name "name container" "name image"   
 
@@ -58,14 +58,21 @@ sudo chmod +x /usr/local/bin/docker-compose```
 
 - Tạo project node như bình thường
 - Sau đó tạo ra 1 file Dockerfile ở trong project:
-- ```FROM node:slim  WORKDIR /usr/src/app  ENV W_C_M="Welcome to VN"  COPY package.json .  COPY yarn.lock .  RUN yarn install COPY . .  EXPOSE 4000  CMD ['yarn', 'start']```
+- ```FROM node:slim```
+- ```WORKDIR /usr/src/app```
+- ```ENV W_C_M="Welcome to VN"```
+- ```COPY package.json .```
+- ```COPY yarn.lock .```
+- ```RUN yarn install COPY . .```
+- ```EXPOSE 4000```
+- ```CMD ['yarn', 'start']```
 - Tạo ra file .dockerignore sẽ bỏ qua các package như node_module
 - docker build -t "node_image" .
 - docker run -d -p 4000:4000 --name "node_app" "node_image"
 
 
 ## 5. Docker compose
- 
+- Tạo file docker-compose.yml 
 
 
 
