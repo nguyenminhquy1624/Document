@@ -77,7 +77,7 @@ COPY package.json .
 COPY yarn.lock .
 RUN yarn install COPY . .
 EXPOSE 4000
--CMD ['yarn', 'start']
+CMD ['yarn', 'start']
 ```
 
 - Tạo ra file .dockerignore sẽ bỏ qua các package như node_module
@@ -86,10 +86,22 @@ EXPOSE 4000
 
 
 ## 5. Docker compose
-- Tạo file docker-compose.yml 
+- Tạo file docker-compose.yml và điền các thông tin:
+```
+version : '3'
+services:
+	node_image:
+		build:
+			context: .
+			dockerfile: Dockerfile
+		container_name : node_app
+		ports:
+			- '4000:4000'
+```
 
-
-
+- Giải thích : node_image là tên của image, context là nơi mà nó tìm thấy tất cả các file để nó build, dockerfile là tên của file Dockerfile để nó tìm, container_name đặt tên cho container để build, port là cổng chạy trên máy và trên container
+- Chạy lệnh ```docker-compose up -d``` để build image và container
+- Chạy lệnh ```docker-compose down``` để dừng và xóa container
 
 
 
