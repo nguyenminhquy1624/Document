@@ -86,6 +86,8 @@ CMD ['yarn', 'start']
 
 
 ## 5. Docker compose
+
+### 5.1 Chạy với 1 image
 - Tạo file docker-compose.yml và điền các thông tin:
 ```
 version : '3'
@@ -104,8 +106,115 @@ services:
 - Chạy lệnh ```docker-compose down``` để dừng và xóa container
 
 
+### 5.2 Chạy với nhiều image
+- docker/entrypoint.sh : Liệt kê các câu lệnh sau khi bật container
+- Dockerfile : quy định docker image được khởi tạo từ đầu gồm những gì
+- docker-compose.yml : Dùng khai báo và điều phối hoạt động của container trong dự án
+- Viết docker-compose.yml:
+```
+version : '3.5'
+services :
+	mysql:
+		image : mysql:5.7
+		container_name: mysql
+		restart: always
+		environment:
+			MYSQL_ROOT_PASSWORD: root
+		volumes:
+			- docker/database:/var/lib/mysql
+	app:
+		container_name: app
+		build : 
+			- context : .
+			- dockerfile : Dockerfile
+		volumes:
+			- .:/my_app
+		ports:
+			-"3000:3000"
+		environment:
+			DATABASE_HOST: mysql
+			DATABASE_USER_NAME: root
+			DATABASE_PASSWORD: root
+```
+
+- Với image là tên image chỉ định để khởi động container, container_name là chỉ định tên container ta đặt, restart với giá trị mặc định là no còn ta đặt là always thì sẽ khởi động lại nếu mã thoát cho biết lỗi không thành công, enviroment là các biến môi trường, volumes là chia sẻ dữ liệu giữa container và host hoặc giữa các container với nhau
+- build là ta xây dựng container từ Dockerfile chứ không có sẵn nữa, ports là cấu hình cổng kết nối (HOST:CONTAINER), environment là các biến môi trường
+
+- Viết trong file Dockerfile
+
+```
+# Image cơ sở
+FROM ruby:2.5.1
+
+# Cài đặt các phần mềm cho máy ảo
+RUN apt-get update && \
+  apt-get install -y nodejs nano vim
+  
+# Set timezone cho máy ảo
+ENV TZ=Asia/Ho_Chi_Minh
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# Chỉ định thư mục làm việc
+ENV APP_PATH /my_app
+WORKDIR $APP_PATH
+
+# Cài đặt framework cần thiết cho dự án
+COPY Gemfile Gemfile.lock $APP_PATH/
+RUN bundle install --without production --retry 2 \
+  --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1`
+  
+# Copy tất cả dữ liệu từ máy host vào container
+COPY . $APP_PATH
+
+# Cấu hình file entrypoint.sh
+COPY docker/entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+EXPOSE 3000
+
+# Thiết lập mặc định sau khi khởi động container
+CMD ["rails", "server", "-b", "0.0.0.0"]
+```
 
 
+- Cấu hình file entrypoint.sh
+```
+#!/bin/bash
+set -e
+
+# Remove a potentially pre-existing server.pid for Rails.
+rm -f /my_app/tmp/pids/server.pid
+
+# Then exec the container's main process use CMD (what"s set as CMD in the Dockerfile).
+exec "$@"
+```
+- Sau đó chạy các câu lệnh sau:
+```
+docker-compose run app rails new . --force --no-deps --database=mysql
+```
+
+## 6. Một số khái niệm
+- RUN : sử dụng để thực thi một câu lệnh nào đó trong quá trình build images
+- CMD : Để thực thi một câu lệnh trong quá trình bật container. Nếu có nhiều câu lệnh CMD thì nó chỉ chạy câu lệnh CMD cuối
+- ENTRYPOINT : Để thực thi một số câu lệnh trong quá trình start container được viết trong file .sh
+- EXPOSE : Container sẽ lắng nghe trên các cổng mạng được chỉ định khi chạy
+- ADD : Copy file, thư mục, remote file thêm chúng vào filesystem của image
+- COPY : Copy file, thư mục từ host và image
+- WORKDIR : Định nghĩa directory cho CMD
+- VOLUME : Mount thư mục từ máy host vào container
+
+
+
+## Makefile
+
+- Viết vào Makefile:
+```
+up: 
+	docker-compose up -d mysql redis worker
+dev:
+	docker-compose run --rm -p 3000:3000 app rails s
+```
+- Sau đó dùng make up để start các container background và make dev để start main container
 
 
 
