@@ -205,7 +205,7 @@ docker-compose run app rails new . --force --no-deps --database=mysql
 
 
 
-## Makefile
+## 7. Makefile
 
 - Viết vào Makefile:
 ```
