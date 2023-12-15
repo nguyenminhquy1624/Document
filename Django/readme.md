@@ -41,7 +41,7 @@ urlpatterns = [
 ]  
 ```
 - Sau đó vào urls.py tại dự án thêm vào urlpatterns:
-``
+```
 urlpatterns = [
     ...
     path('home/', include('app.urls')),  
@@ -54,9 +54,7 @@ urlpatterns = [
 - Model Django là lớp con của django.db.models.Model và mỗi trường của lớp mô hình đại diện cho một trường CSDL
 - Model được xác định trong tệp models.py. Tệp này có thể chứa nhiều mô hình
 - Ví dụ về model :
-```
-from django.db import models  
-  
+```from django.db import models  
 class Employee(models.Model):  
     first_name = models.CharField(max_length=30)  
     last_name = models.CharField(max_length=30)  
@@ -65,6 +63,234 @@ class Employee(models.Model):
 - Sau đó để cập nhật vào CSDL ta sử dụng : ```python manage.py migrate```
 
 # 5. Views
+
+- Ví dụ trong file views.py trong thư mục mytime:
+```
+import datetime  
+# Create your views here.  
+from django.http import HttpResponse  
+def index(request):  
+    now = datetime.datetime.now()  
+    html = "<html><body><h3>Now time is %s.</h3></body></html>" % now  
+    return HttpResponse(html)    # rendering the template in H
+```
+
+- Tạo urls.py tại thư mục mytime:
+
+```
+from django.urls import path  
+from . import views
+urlpatterns = [  
+    path('', views.index),  
+]  
+```
+- Sau đó vào urls.py tại dự án thêm vào urlpatterns:
+```
+urlpatterns = [
+    ...
+    path('time/', include('mytime.urls')),  
+]
+```
+- Sau đó chạy server lên : ```python manage.py runserver```
+
+
+# 6. HTTP Decorator
+
+- Tại file views.py
+
+```
+from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseNotFound
+from django.views.decorators.http import require_http_methods
+
+@require_http_methods(["GET"])  
+def show(request):  
+    return HttpResponse('<h1>This is Http GET request.</h1>')
+```
+
+- Tương tự thêm vào urls và khởi động lên
+
+
+#7. Django Template
+
+- Config tại file setting trong dự án : ```'DIRS': [os.path.join(BASE_DIR,'templates')]```
+- Tạo folder templates trong app. Sau đó tạo ra file HTML
+- Viết trong file views.py
+```
+from django.shortcuts import render  
+from django.template import loader  
+from django.http import HttpResponse  
+
+def index(request):  
+   template = loader.get_template('index.html')
+   return HttpResponse(template.render())
+```
+- Tương tự trong các file urls.py
+- Ngoài ra ta có thể truyền vào các biến để hiển thị.
+- Mã hóa csrf_token sử dụng trong phương thức POST : ```{% csrf_token %}```
+- Câu lệnh if viết trong HTML :
+```
+{% if user.is_authenticated %}  
+    Hello, {{ user.username }}.  
+{% endif %}  
+```
+# 8. Django Static File
+- Tạo ra folder static ở trong app chứa các file css và js
+- Tại file base thì sử dụng ```{% load static %}```
+- Tại vị trí nào sử dụng static file thì {% static 'path' %}
+
+# 9. Model Form
+- Tại model.py
+```
+from __future__ import unicode_literals  
+from django.db import models  
+  
+class Student(models.Model):  
+    first_name = models.CharField(max_length=20)  
+    last_name  = models.CharField(max_length=30)  
+    class Meta:  
+        db_table = "student"  
+```
+
+- File form.py
+```
+from django import forms  
+from myapp.models import Student  
+  
+class EmpForm(forms.ModelForm):  
+    class Meta:  
+        model = Student  
+        fields = "__all__" 
+```
+
+- File views.py
+```
+from django.shortcuts import render  
+from myapp.form import StuForm  
+  
+def index(request):  
+    stu = EmpForm()  
+    return render(request,"index.html",{'form':stu})  
+```
+- Trong file html : Sử dụng csrf_token trong form method POST và {{form.as_p}} để lấy tất cả các trường dữ liệu form
+- Sau đó tạo urls như trên.
+
+
+# 10. Form Validation
+
+- Tạo models.py
+- Trong forms.py tạo ra class Meta kế thừa Class trong models
+- Tại file views.py định nghĩa hàm is_valid()
+```
+def emp(request):  
+    if request.method == "POST":  
+        form = EmployeeForm(request.POST)  
+        if form.is_valid():  
+            try:  
+                return redirect('/')  
+            except:  
+                pass  
+    else:  
+        form = EmployeeForm()  
+    return render(request,'index.html',{'form':form})  
+```
+
+
+# 11. Create, Read, Update, Delete
+
+## 1. Tại file models.py:
+```
+from django.db import models  
+class Employee(models.Model):  
+    eid = models.CharField(max_length=20)  
+    ename = models.CharField(max_length=100)  
+    eemail = models.EmailField()  
+    econtact = models.CharField(max_length=15)  
+    class Meta:  
+        db_table = "employee"  
+```
+## 2. Tại file forms.py :
+```
+from django import forms  
+from employee.models import Employee  
+class EmployeeForm(forms.ModelForm):  
+    class Meta:  
+        model = Employee  
+        fields = "__all__"  
+```
+## 3. Tại file views.py :
+```
+from django.shortcuts import render, redirect  
+from employee.forms import EmployeeForm  
+from employee.models import Employee  
+
+#Create
+def emp(request) :
+	if request.method=="POST":
+		form = EmployeeForm(request.POST)
+		if form.is_valid():
+			try:
+				form.save()
+				return redirect('/')
+			exception:
+				pass
+		else:
+			form = EmployeeForm()
+		return render(request, 'index.html',{'form':form})
+# Read
+def show(request):
+	employees = Employee.objects.all()
+	return render(request, 'show.html', {'employees':employees})
+
+# Update
+def edit(request, id):
+	employee = Employee.object.get(id=id)
+	return (request, 'edit.html',{'empoyee':employee})
+def update(request, id):
+	employee = Employee.object.get(id=id)
+	form = EmployeeForm(request.POST, instance= employee)
+	if form.is_valid():
+		form.save()
+		return redirect('show/')
+	return render(request,'edit.html',{'employee':employee})
+	
+# Delete
+def delete(request, id):
+	employee = Employee.object.get(id=id)
+	employee.delete()
+	return redirect('show')
+```
+
+## 4. Tại file urls.py:
+- Config trong app
+```
+from django.contrib import admin  
+from django.urls import path  
+from employee import views  
+urlpatterns = [  
+    path('emp/', views.emp),  
+    path('show/',views.show),  
+    path('edit/<int:id>', views.edit),  
+    path('update/<int:id>', views.update),  
+    path('delete/<int:id>', views.destroy),  
+]  
+```
+- Config urls.py trong dự án
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
