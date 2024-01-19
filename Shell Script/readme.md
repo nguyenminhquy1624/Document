@@ -52,5 +52,88 @@ fi
 ```
 
 
+#6 Vim
+- Vim có 7 chế độ : normal, insert, visual, replace, Ex-mode, select, command-line
+- Chế độ normal : Cho phép sử dụng câu lệnh được bắt đầu bằng ```:``` hoặc các phím tắt.
+- Chế độ Insert : Cho phép sửa, thao tác với văn bản tương tự như trình soạn thảo khác bằng gõ các ký tự. Để chuyển từ chế độ normal sang chế độ Insert có thể dùng phím ```A``` hoặc ```i```, ```I```, ```a```, ```o```,```0```.
+- Visual : Tương tự như normal nhưng cho phép bôi đen đoạn văn bản để thao tác. Để chuyển sang chế độ này có thể dùng phím ```v```.
+### 6.1 Mở file với vim
+- Cách 1 :```vim 'path-file' ```
+- Cách 2 : khởi động với câu lệnh ```vim``` sau đó sử dụng 1 trong các câu lệnh ```:edit```, ```:open```, ```:tabedit```, ```:split```, ```:vsplit```
+## 6.2 Các thao tác trong file
+- Di chuyển con trỏ: h(trái), j(dưới), k(trên), l(phải).
+- Di chuyển với phím tắt:
+	- ```:<số dòng>``` : Di chuyển con trỏ tới dòng tương ứng
+	- ```0:``` : Di chuyển con trỏ tới đầu dòng hiện tại
+	- ```:0``` : Di chuyển con trỏ tới dòng đầu tiên của file
+	- ```$``` : Di chuyển con trỏ tới cuối dòng hiện tại
+	- ```:$``` : DI chuyển chuyển con trỏ tới dòng cuối cùng của file
+	- ```:/<từ cần tìm> : Di chuyển con trỏ tới vị trí tự khóa cần tìm trong file
+	- ```v + phím điều hướng``` : Bôi đen đoạn text
+	- ```y``` : copy đoạn text đang bôi đen
+	- ```p``` : paste đoạn text đang bôi đen
+- Chèn:
+	- ```i``` : Con trỏ sẽ ở vị trí hiện tại
+	- ```I``` : con trỏ sẽ ở đầu dòng hiện tại
+	- ```a``` : con trỏ sẽ ở ngay vị trí hiện tại 1 ký tự
+	- ```A``` : con trỏ ở cuối dòng hiện tại
+	- ```o``` : thêm một dòng bên dứoi dòng hiện tại và đặt con trỏ tại dòng này
+	- ```0``` : thêm 1 dòng bên trên dòng hiện tại
+- Xóa
+	- ```x``` : XÓa 1 ký tự ở vị trí hiện tại
+	- ```dw``` : xóa 1 từ tính từ vị trí con trỏ hiện tại
+	- ```d``` hoặc ```dd``` : XÓa cả dòng hiện tại
+	- ```d$``` : Xóa hết dòng tính từ vị trị trí hiện tại
+	- ```d{số dòng}``` : Xóa số dòng bằng giá trị {số dòng} tính từ dòng hiện tại
+- Undo : Vim sử dụng phím ```u``` hoặc ```Ctrl + R```
+- Lưu và thoát file
+	- ```:w``` : lưu mà không thoát file
+	- ```:wq``` hoặc ```:x``` : lưu và thoát file
+	- ```:q``` : thoát file
+	- ```:q!``` : thoát mà không lưu file
+	- ```:qa``` : thoát tất cả các file đang mở 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

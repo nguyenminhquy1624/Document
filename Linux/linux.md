@@ -98,7 +98,10 @@
 	- Sau đó copy đoạn mã hiển thị sau khi gõ lệnh ở trên rồi vào https://github.com/settings/ssh chọn New SSH key rồi thêm key vào đó.
 	- Sau đó vào terminal chạy ```ssh git@github.com```
 
-
+## 7. Port ubuntu
+- Kiểm tra các port đang hoạt động : ```netstat -paten```
+- Kiểm tra thông tin của port đang sử dụng : ```sudo lsof -i :"$PORT$"
+- Dừng toàn bộ process đang nghe ở cổng "$PORT$" : ```sudo kill -9 "$PID$"```
 
 
 
