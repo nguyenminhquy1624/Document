@@ -103,9 +103,20 @@
 - Kiểm tra thông tin của port đang sử dụng : ```sudo lsof -i :"$PORT$"
 - Dừng toàn bộ process đang nghe ở cổng "$PORT$" : ```sudo kill -9 "$PID$"```
 
+## 8. Gdown dowload folder drive
+- Install : pip install gdown
+- gdown https://drive.google.com/uc?id=<file_id>  # for files
+- gdown <file_id>                        # alternative format
+- gdown --folder https://drive.google.com/drive/folders/<file_id>  # for folders
+- gdown --folder --id <file_id>                        # this format works for folders too
 
-
-
+- Định dạng các file, folder trong drive:
+```
+# Files
+https://drive.google.com/file/d/<file_id>/view?usp=sharing
+# Folders
+https://drive.google.com/drive/folders/<file_id>
+```
 
 
 	
