@@ -119,6 +119,26 @@ https://drive.google.com/drive/folders/<file_id>
 ```
 
 
-	
-	
+## 9. Screen Linux
+- Tạo ra 1 screen mới : ```screen``` hoặc ```screen -S session_name```
+- ```Ctrl + a + c``` : Tạo ra một terminal mới song song với terminal hiện tại
+- ```Ctrl + a + d``` : Chạy ngầm tách ra khỏi cửa sổ hiện tại
+- ```screen -r [name_session hoặc id_session]``` : CHuyển sang session khác
+- ```screen -ls``` : liệt kê các phiên screen
+- ``screen -r id``` : Khôi phục với screen id
+- ```screen -X -S [ID của screen] quit``` : Xóa 1 screen
+
+## 10. Chạy 1 file trên screen
+### 1. Với file python
+	- ```screen -r name``` : tạo session screen
+	- Tạo file python và môi trường chạy
+	- ```python file.py```
+	- ```Ctrl + a + d```: Để chạy ngầm detached
+	- ```screen -r name```: Để về screen ở chế độ attached
+### 2. Chạy với file ipynb
+	- ```screen -r name``` : tạo session screen
+	- Tạo file ipynb và môi trường chạy trên kernel
+	- ```ipython file.ipynb``` : Chạy file
+	- ```Ctrl + a + d```: Để chạy ngầm detached
+	- ```screen -r name```: Để về screen ở chế độ attached
 	
