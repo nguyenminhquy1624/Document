@@ -216,6 +216,12 @@ dev:
 ```
 - Sau đó dùng make up để start các container background và make dev để start main container
 
+# II Docker tutorial
+
+- ```docker``` : sẽ hiển thị các lệnh nhỏ bên trong docker
+- ```docker image --help``` : sẽ hướng dẫn về các lệnh con trong ```docker image```
+- ```docker images``` :  xem tất cả các images có trên máy
+- ```docker pull``` : 
 
 
 
