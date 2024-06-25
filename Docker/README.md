@@ -203,8 +203,6 @@ docker-compose run app rails new . --force --no-deps --database=mysql
 - WORKDIR : Định nghĩa directory cho CMD
 - VOLUME : Mount thư mục từ máy host vào container
 
-
-
 ## 7. Makefile
 
 - Viết vào Makefile:
